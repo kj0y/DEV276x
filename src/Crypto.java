@@ -20,17 +20,17 @@ public class Crypto {
         System.out.print("Enter size to make code groups: ");
         int numLettersPerGrp = input.nextInt();
         String groupifiedText = groupify(caesarfiedText, numLettersPerGrp);
-        System.out.println(groupify(caesarfiedText, numLettersPerGrp));
 
         //Part 4 - Putting it all together
         System.out.println("Encrypting string... ");
-        String encryptString = encryptString(groupifiedText, key, numLettersPerGrp);
+        String encryptString = encryptString(message, key, numLettersPerGrp);
         System.out.println(encryptString);
     }
 
     // Part 1 - Normalize Text
     public static String normalizeText(String message) {
-        String normalizedText = message.replaceAll("[^\\p{L}\\p{N}]", "").toUpperCase();
+        String normalizedText = message.replaceAll("[^a-zA-Z ]", "")
+                .replaceAll("\\s+","").toUpperCase();
         return normalizedText;
     }
 
@@ -106,12 +106,6 @@ public class Crypto {
 
     // Part 4 - Putting it all together
     public static String encryptString(String message, int key, int numLettersPerGrp) {
-        String encryptedText = "";
-        encryptedText = normalizeText(message);
-        String result = shiftAlphabet(key);
-        String caesarfiedText = caesarify(result, key);
-        encryptedText = groupify(caesarfiedText, numLettersPerGrp);
-
-        return encryptedText;
+        return groupify(caesarify(normalizeText(message) ,key),numLettersPerGrp);
     }
 }
